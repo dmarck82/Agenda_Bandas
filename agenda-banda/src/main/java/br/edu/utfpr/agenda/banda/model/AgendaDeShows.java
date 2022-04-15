@@ -7,6 +7,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "tb_agenda_de_shows")
@@ -14,7 +15,9 @@ public class AgendaDeShows {
     
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id_agenda_de_shows;
+    @NotNull
     private Date data;
+    @NotNull
     private Float cache;
     private Long id_casa_de_show;
     private Long id_banda;

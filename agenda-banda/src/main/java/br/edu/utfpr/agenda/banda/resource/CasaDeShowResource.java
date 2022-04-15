@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -35,7 +36,7 @@ public class CasaDeShowResource {
     }
 
     @PostMapping
-    public ResponseEntity<CasaDeShow> criar(@RequestBody CasaDeShow casaDeShow, HttpServletResponse response){
+    public ResponseEntity<CasaDeShow> criar(@Valid @RequestBody CasaDeShow casaDeShow, HttpServletResponse response){
         CasaDeShow casaDeShowSalvo = casaDeShowRepository.save(casaDeShow);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequestUri().path("/{codigo}").buildAndExpand(casaDeShow
         .getId_casa_de_show()).toUri();

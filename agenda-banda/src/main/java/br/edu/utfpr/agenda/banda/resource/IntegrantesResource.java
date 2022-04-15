@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -35,7 +36,7 @@ public class IntegrantesResource {
     }
 
     @PostMapping
-    public ResponseEntity<Integrantes> criar(@RequestBody Integrantes integrantes, HttpServletResponse response){
+    public ResponseEntity<Integrantes> criar(@Valid @RequestBody Integrantes integrantes, HttpServletResponse response){
         Integrantes integrantesSalvo = integrantesRepository.save(integrantes);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequestUri().path("/{codigo}").buildAndExpand(integrantesSalvo
         .getId_integrantes()).toUri();

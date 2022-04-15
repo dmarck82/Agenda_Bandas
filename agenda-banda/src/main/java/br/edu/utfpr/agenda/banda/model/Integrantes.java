@@ -5,6 +5,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "tb_integrantes")
@@ -12,10 +15,15 @@ public class Integrantes {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id_integrantes;
+    @NotNull @Size(min = 3, max =45)
     private String nome;
+    @NotNull @Size(min = 3, max = 45)
     private String sobrenome;
+    @NotNull @Size(min = 3, max = 15)
     private String telefone;
+    @NotNull @Size(min = 3, max = 11)
     private String cpf;
+    @NotNull @Size(min = 3, max = 45) @Email
     private String email;
     private Long id_banda;
     

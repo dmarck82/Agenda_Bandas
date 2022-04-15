@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -35,7 +36,7 @@ public class AgendaDeShowsResource {
     }
 
     @PostMapping
-    public ResponseEntity<AgendaDeShows> criar(@RequestBody AgendaDeShows agendaDeShows, HttpServletResponse response){
+    public ResponseEntity<AgendaDeShows> criar(@Valid @RequestBody AgendaDeShows agendaDeShows, HttpServletResponse response){
         AgendaDeShows agendaDeShowsSalvo = agendaDeShowsRepository.save(agendaDeShows);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequestUri().path("/{codigo}").buildAndExpand(agendaDeShowsSalvo
         .getId_agenda_de_shows()).toUri();

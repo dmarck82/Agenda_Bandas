@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -35,7 +36,7 @@ public class BandaResource {
     }
 
     @PostMapping
-    public ResponseEntity<Banda> criar(@RequestBody Banda banda, HttpServletResponse response){
+    public ResponseEntity<Banda> criar(@Valid @RequestBody Banda banda, HttpServletResponse response){
         Banda bandaSalvo = bandaRepository.save(banda);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequestUri().path("/{codigo}").buildAndExpand(bandaSalvo
         .getId_banda()).toUri();

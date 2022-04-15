@@ -1,6 +1,6 @@
 create table tb_banda(
     id_banda int auto_increment not null,
-    nome varchar(45),
+    nome varchar(45) not null,
     primary key (id_banda)
 );
 
