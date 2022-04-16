@@ -1,6 +1,5 @@
 package br.edu.utfpr.agenda.banda.resource;
 
-import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 
@@ -8,6 +7,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -18,8 +18,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-
+import br.edu.utfpr.agenda.banda.event.RecursoCriadoEvent;
 import br.edu.utfpr.agenda.banda.model.Integrantes;
 import br.edu.utfpr.agenda.banda.repository.IntegrantesRepository;
 
@@ -30,6 +29,9 @@ public class IntegrantesResource {
     @Autowired
     private IntegrantesRepository integrantesRepository;
 
+    @Autowired
+    private ApplicationEventPublisher publisher;
+
     @GetMapping
     public List<Integrantes> listar(){
         return integrantesRepository.findAll();
@@ -37,12 +39,12 @@ public class IntegrantesResource {
 
     @PostMapping
     public ResponseEntity<Integrantes> criar(@Valid @RequestBody Integrantes integrantes, HttpServletResponse response){
+        
         Integrantes integrantesSalvo = integrantesRepository.save(integrantes);
-        URI uri = ServletUriComponentsBuilder.fromCurrentRequestUri().path("/{codigo}").buildAndExpand(integrantesSalvo
-        .getId_integrantes()).toUri();
-        response.setHeader("Location", uri.toASCIIString());
+        publisher.publishEvent(new RecursoCriadoEvent(this, response, integrantesSalvo.getId_integrantes()));
 
-        return ResponseEntity.created(uri).body(integrantesSalvo);
+        return ResponseEntity.status(HttpStatus.CREATED).body(integrantesSalvo);
+
     }
 
     @GetMapping("/{codigo}")
