@@ -20,18 +20,18 @@ create table tb_integrantes(
     telefone varchar(15) not null,
     cpf varchar(11) not null,
     email varchar(45) null,
-    id_banda int,
+    codigo_banda int,
     primary key (id_integrantes),
-    Foreign key(id_banda) references tb_banda(id_banda)
+    Foreign key(codigo_banda) references tb_banda(id_banda)
 );
 
 create table tb_agenda_de_shows(
     id_agenda_de_shows int auto_increment not null,
     `data` date not null,
     `cache` decimal(10) not null,
-    id_casa_de_show int,
-    id_banda int,
+    codigo_casa_de_show int,
+    codigo_banda int,
     primary key (id_agenda_de_shows),
-    Foreign Key (id_casa_de_show) references tb_casa_de_show(id_casa_de_show),
-    Foreign Key (id_banda) references tb_banda(id_banda)
+    Foreign Key (codigo_casa_de_show) references tb_casa_de_show(id_casa_de_show),
+    Foreign Key (codigo_banda) references tb_banda(id_banda)
 );

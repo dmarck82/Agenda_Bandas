@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 import br.edu.utfpr.agenda.banda.event.RecursoCriadoEvent;
 import br.edu.utfpr.agenda.banda.model.Banda;
 import br.edu.utfpr.agenda.banda.repository.BandaRepository;
+import br.edu.utfpr.agenda.banda.service.BandaService;
 
 @RestController
 @RequestMapping("/banda")
@@ -31,6 +32,9 @@ public class BandaResource {
 
     @Autowired
     private ApplicationEventPublisher publisher;
+
+    @Autowired
+    private BandaService bandaService;
     
     @GetMapping
     public List<Banda> listar(){
@@ -60,15 +64,10 @@ public class BandaResource {
     }
     
     @PutMapping("/{codigo}")
-    public ResponseEntity <Banda> alterarPeloCodigo(@RequestBody Banda bandaNova, @PathVariable Long codigo){
-        Optional<Banda> banda = bandaRepository.findById(codigo);
-        if(banda.isPresent()){
-            Banda BandaTemp = banda.get();
-            BandaTemp.setNome(bandaNova.getNome());
-            bandaRepository.save(BandaTemp);
-            return new ResponseEntity<Banda>(BandaTemp, HttpStatus.OK);
-        }
-        else   
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-    }
+    public ResponseEntity <Banda> atualizar(@PathVariable Long codigo, @Valid @RequestBody Banda banda){
+
+        Banda bandaSalva = bandaService.atualizar(codigo, banda);
+        
+        return ResponseEntity.ok(bandaSalva);
+    }         
 }

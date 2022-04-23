@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 import br.edu.utfpr.agenda.banda.event.RecursoCriadoEvent;
 import br.edu.utfpr.agenda.banda.model.AgendaDeShows;
 import br.edu.utfpr.agenda.banda.repository.AgendaDeShowsRepository;
+import br.edu.utfpr.agenda.banda.service.AgendaDeShowService;
 
 @RestController
 @RequestMapping("/agendadeshows")
@@ -31,6 +32,9 @@ public class AgendaDeShowsResource {
 
     @Autowired
     private ApplicationEventPublisher publisher;
+
+    @Autowired
+    private AgendaDeShowService agendaDeShowService;
 
     @GetMapping
     public List<AgendaDeShows> listar(){
@@ -60,19 +64,11 @@ public class AgendaDeShowsResource {
     }
 
     @PutMapping("/{codigo}")
-    public ResponseEntity <AgendaDeShows> alterarPeloCodigo(@RequestBody AgendaDeShows agendaDeShowsNova, @PathVariable Long codigo){
-        Optional<AgendaDeShows> agendaDeShowsVelha = agendaDeShowsRepository.findById(codigo);
-        if(agendaDeShowsVelha.isPresent()){
-            AgendaDeShows agendaDeShowsTemp = agendaDeShowsVelha.get();
-            agendaDeShowsTemp.setData(agendaDeShowsNova.getData());
-            agendaDeShowsTemp.setCache(agendaDeShowsNova.getCache());
-            agendaDeShowsTemp.setId_banda(agendaDeShowsNova.getId_banda());
-            agendaDeShowsTemp.setId_casa_de_show(agendaDeShowsNova.getId_casa_de_show());
-            agendaDeShowsRepository.save(agendaDeShowsTemp);
-            return new ResponseEntity<AgendaDeShows>(agendaDeShowsTemp, HttpStatus.OK);
-        }
-        else   
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    public ResponseEntity <AgendaDeShows> atualizar(@PathVariable Long codigo, @Valid @RequestBody AgendaDeShows agendaDeShow){
+    
+        AgendaDeShows agendaDeShowsSalvo = agendaDeShowService.atualizar(codigo, agendaDeShow);
+
+        return ResponseEntity.ok(agendaDeShowsSalvo);
     }
 
 }

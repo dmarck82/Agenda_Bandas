@@ -1,9 +1,13 @@
 package br.edu.utfpr.agenda.banda.model;
 
+import java.util.List;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -12,11 +16,18 @@ import javax.validation.constraints.Size;
 @Table(name = "tb_banda")
 public class Banda {
     
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id 
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id_banda;
-    @NotNull @Size(min = 3, max = 45)
+
+    @NotNull 
+    @Size(min = 3, max = 45)
     private String nome;
     
+    @OneToMany
+    @JoinColumn(name = "codigo_banda")
+    private List<Integrantes> integrantes;
+
     public Long getId_banda() {
         return id_banda;
     }
@@ -28,6 +39,13 @@ public class Banda {
     }
     public void setNome(String nome) {
         this.nome = nome;
+    }  
+    
+    public List<Integrantes> getIntegrantes() {
+        return integrantes;
+    }
+    public void setIntegrantes(List<Integrantes> integrantes) {
+        this.integrantes = integrantes;
     }
     
     @Override
@@ -37,6 +55,7 @@ public class Banda {
         result = prime * result + ((id_banda == null) ? 0 : id_banda.hashCode());
         return result;
     }
+    
     @Override
     public boolean equals(Object obj) {
         if (this == obj)
@@ -53,6 +72,5 @@ public class Banda {
             return false;
         return true;
     }
-
-    
-}
+  
+}   

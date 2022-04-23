@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 import br.edu.utfpr.agenda.banda.event.RecursoCriadoEvent;
 import br.edu.utfpr.agenda.banda.model.Integrantes;
 import br.edu.utfpr.agenda.banda.repository.IntegrantesRepository;
+import br.edu.utfpr.agenda.banda.service.IntegrantesService;
 
 @RestController
 @RequestMapping("/integrantes")
@@ -31,6 +32,9 @@ public class IntegrantesResource {
 
     @Autowired
     private ApplicationEventPublisher publisher;
+
+    @Autowired
+    private IntegrantesService integrantesService;
 
     @GetMapping
     public List<Integrantes> listar(){
@@ -60,21 +64,11 @@ public class IntegrantesResource {
     }
 
     @PutMapping("/{codigo}")
-    public ResponseEntity <Integrantes> alterarPeloCodigo(@RequestBody Integrantes integrantesNova, @PathVariable Long codigo){
-        Optional<Integrantes> integrantesVelha = integrantesRepository.findById(codigo);
-        if(integrantesVelha.isPresent()){
-            Integrantes integrantesTemp = integrantesVelha.get();
-            integrantesTemp.setNome(integrantesNova.getNome());
-            integrantesTemp.setSobrenome(integrantesNova.getSobrenome());
-            integrantesTemp.setTelefone(integrantesNova.getTelefone());
-            integrantesTemp.setCpf(integrantesNova.getCpf());
-            integrantesTemp.setEmail(integrantesNova.getEmail());
-            integrantesTemp.setId_banda(integrantesNova.getId_banda());
-            integrantesRepository.save(integrantesTemp);
-            return new ResponseEntity<Integrantes>(integrantesTemp, HttpStatus.OK);
-        }
-        else   
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    public ResponseEntity <Integrantes> atualizar(@PathVariable Long codigo, @Valid @RequestBody Integrantes integrantes){
+
+        Integrantes integrantesSalvo = integrantesService.atualizar(codigo, integrantes);
+
+        return ResponseEntity.ok(integrantesSalvo);
     }
     
 }

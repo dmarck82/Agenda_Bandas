@@ -82,6 +82,4 @@ public class AgendaBandaExceptionHandler extends ResponseEntityExceptionHandler{
 
         return erros;
     }
-
-    
 }

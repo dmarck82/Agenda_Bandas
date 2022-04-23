@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 import br.edu.utfpr.agenda.banda.event.RecursoCriadoEvent;
 import br.edu.utfpr.agenda.banda.model.CasaDeShow;
 import br.edu.utfpr.agenda.banda.repository.CasaDeShowRepository;
+import br.edu.utfpr.agenda.banda.service.CasaDeShowService;
 
 @RestController
 @RequestMapping("/casadeshow")
@@ -31,6 +32,9 @@ public class CasaDeShowResource {
 
     @Autowired
     private ApplicationEventPublisher publisher;
+
+    @Autowired
+    private CasaDeShowService casaDeShowService;
 
     @GetMapping
     public List<CasaDeShow> listar(){
@@ -61,18 +65,10 @@ public class CasaDeShowResource {
     }
 
     @PutMapping("/{codigo}")
-    public ResponseEntity <CasaDeShow> alterarPeloCodigo(@RequestBody CasaDeShow casaDeShowNova, @PathVariable Long codigo){
-        Optional<CasaDeShow> casaDeShowVelha = casaDeShowRepository.findById(codigo);
-        if(casaDeShowVelha.isPresent()){
-            CasaDeShow casaDeShowTemp = casaDeShowVelha.get();
-            casaDeShowTemp.setNome(casaDeShowNova.getNome());
-            casaDeShowTemp.setTelefone(casaDeShowNova.getTelefone());
-            casaDeShowTemp.setResponsavel(casaDeShowNova.getResponsavel());
-            casaDeShowTemp.setEmail(casaDeShowNova.getEmail());
-            casaDeShowRepository.save(casaDeShowTemp);
-            return new ResponseEntity<CasaDeShow>(casaDeShowTemp, HttpStatus.OK);
-        }
-        else   
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    public ResponseEntity <CasaDeShow> atualizar(@PathVariable Long codigo, @Valid @RequestBody CasaDeShow casaDeShow){
+
+        CasaDeShow casaDeShowSalvo = casaDeShowService.atualizar(codigo, casaDeShow);
+
+        return ResponseEntity.ok(casaDeShowSalvo);
     }
 }

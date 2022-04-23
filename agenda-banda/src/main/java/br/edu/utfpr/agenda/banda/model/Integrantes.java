@@ -9,23 +9,31 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+
 @Entity
 @Table(name = "tb_integrantes")
 public class Integrantes {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id_integrantes;
+
     @NotNull @Size(min = 3, max =45)
     private String nome;
+
     @NotNull @Size(min = 3, max = 45)
     private String sobrenome;
+
     @NotNull @Size(min = 3, max = 15)
     private String telefone;
+
     @NotNull @Size(min = 3, max = 11)
     private String cpf;
+
     @NotNull @Size(min = 3, max = 45) @Email
     private String email;
-    private Long id_banda;
+
+    @NotNull
+    private Long codigo_banda;
     
     public Long getId_integrantes() {
         return id_integrantes;
@@ -62,13 +70,14 @@ public class Integrantes {
     }
     public void setEmail(String email) {
         this.email = email;
+    }   
+    public Long getCodigo_banda() {
+        return codigo_banda;
     }
-    public Long getId_banda() {
-        return id_banda;
+    public void setCodigo_banda(Long codigo_banda) {
+        this.codigo_banda = codigo_banda;
     }
-    public void setId_banda(Long id_banda) {
-        this.id_banda = id_banda;
-    }
+    
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -76,6 +85,7 @@ public class Integrantes {
         result = prime * result + ((id_integrantes == null) ? 0 : id_integrantes.hashCode());
         return result;
     }
+    
     @Override
     public boolean equals(Object obj) {
         if (this == obj)
