@@ -43,10 +43,12 @@ public class AgendaDeShows {
     public void setCache(Float cache) {
         this.cache = cache;
     }
+    public LocalDate getData() {
+        return data;
+    }
     public void setData(LocalDate data) {
         this.data = data;
     }
-   
     public Banda getBanda() {
         return banda;
     }
@@ -60,7 +62,6 @@ public class AgendaDeShows {
         this.casaDeShow = casaDeShow;
     }
     
-    
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -68,7 +69,6 @@ public class AgendaDeShows {
         result = prime * result + ((id_agenda_de_shows == null) ? 0 : id_agenda_de_shows.hashCode());
         return result;
     }
-    
     @Override
     public boolean equals(Object obj) {
         if (this == obj)
@@ -85,7 +85,4 @@ public class AgendaDeShows {
             return false;
         return true;
     }
-
-    
-    
 }

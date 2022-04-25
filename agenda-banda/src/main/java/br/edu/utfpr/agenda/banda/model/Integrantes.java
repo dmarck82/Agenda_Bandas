@@ -85,7 +85,6 @@ public class Integrantes {
         result = prime * result + ((id_integrantes == null) ? 0 : id_integrantes.hashCode());
         return result;
     }
-    
     @Override
     public boolean equals(Object obj) {
         if (this == obj)

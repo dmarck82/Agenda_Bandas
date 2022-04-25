@@ -55,7 +55,6 @@ public class Banda {
         result = prime * result + ((id_banda == null) ? 0 : id_banda.hashCode());
         return result;
     }
-    
     @Override
     public boolean equals(Object obj) {
         if (this == obj)
