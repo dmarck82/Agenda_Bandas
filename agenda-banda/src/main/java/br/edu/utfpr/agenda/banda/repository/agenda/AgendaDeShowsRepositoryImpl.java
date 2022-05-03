@@ -64,27 +64,22 @@ public class AgendaDeShowsRepositoryImpl implements AgendaDeShowsRepositoryQuery
 
     }
 
-    private Predicate[] criarRestriçoes(AgendaDeShowsFilter agendaDeShowsFilter, CriteriaBuilder builder,
-            Root<AgendaDeShows> root) {
+    private Predicate[] criarRestriçoes(AgendaDeShowsFilter agendaDeShowsFilter, CriteriaBuilder builder, Root<AgendaDeShows> root) {
 
         List<Predicate> predicates = new ArrayList<>();
 
         if(agendaDeShowsFilter.getDataShowDe() != null){
             predicates.add(
-                builder.greaterThanOrEqualTo(root.get("dataShow"), agendaDeShowsFilter.getDataShowDe())
+                builder.greaterThanOrEqualTo(root.get("data_show"), agendaDeShowsFilter.getDataShowDe())
             );
         }
 
         if(agendaDeShowsFilter.getDataShowAte() != null){
             predicates.add(
-                builder.lessThanOrEqualTo(root.get("dataShow"), agendaDeShowsFilter.getDataShowAte())
+                builder.lessThanOrEqualTo(root.get("data_show"), agendaDeShowsFilter.getDataShowAte())
             );
         }
 
         return predicates.toArray(new Predicate[predicates.size()]);
     }
-
-
-
-
 }
