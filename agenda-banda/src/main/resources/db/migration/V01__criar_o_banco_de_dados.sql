@@ -27,7 +27,7 @@ create table tb_integrantes(
 
 create table tb_agenda_de_shows(
     id_agenda_de_shows int auto_increment not null,
-    `data` date not null,
+    data_show date not null,
     `cache` decimal(10) not null,
     codigo_casa_de_show int,
     codigo_banda int,

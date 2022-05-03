@@ -1,6 +1,8 @@
 package br.edu.utfpr.agenda.banda.model;
 
 import java.time.LocalDate;
+
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -18,7 +20,8 @@ public class AgendaDeShows {
     private Long id_agenda_de_shows;
 
     @NotNull
-    private LocalDate data;
+    @Column(name = "data_show")
+    private LocalDate data_show;
 
     @NotNull
     private Float cache;
@@ -43,11 +46,11 @@ public class AgendaDeShows {
     public void setCache(Float cache) {
         this.cache = cache;
     }
-    public LocalDate getData() {
-        return data;
+    public LocalDate getDataShow() {
+        return data_show;
     }
-    public void setData(LocalDate data) {
-        this.data = data;
+    public void setDataShow(LocalDate data_show) {
+        this.data_show = data_show;
     }
     public Banda getBanda() {
         return banda;
