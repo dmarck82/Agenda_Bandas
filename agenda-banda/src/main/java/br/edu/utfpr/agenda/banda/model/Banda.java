@@ -1,5 +1,6 @@
 package br.edu.utfpr.agenda.banda.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -26,7 +27,7 @@ public class Banda {
     
     @OneToMany
     @JoinColumn(name = "codigo_banda")
-    private List<Integrantes> integrantes;
+    private List<Integrantes> integrantes = new ArrayList<>();
 
     public Long getId_banda() {
         return id_banda;
