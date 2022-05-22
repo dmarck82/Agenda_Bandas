@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -37,11 +38,13 @@ public class IntegrantesResource {
     private IntegrantesService integrantesService;
 
     @GetMapping
+    @PreAuthorize("hasAuthority('ROLE_PESQUISAR_INTEGRANTE') and #oauth2.hasScope('read')")
     public List<Integrantes> listar(){
         return integrantesRepository.findAll();
     }
 
     @PostMapping
+    @PreAuthorize("hasAuthority('ROLE_CADASTRAR_INTEGRANTE') and #oauth2.hasScope('write')")
     public ResponseEntity<Integrantes> criar(@Valid @RequestBody Integrantes integrantes, HttpServletResponse response){
         
         Integrantes integrantesSalvo = integrantesRepository.save(integrantes);
@@ -52,6 +55,7 @@ public class IntegrantesResource {
     }
 
     @GetMapping("/{codigo}")
+    @PreAuthorize("hasAuthority('ROLE_PESQUISAR_INTEGRANTE') and #oauth2.hasScope('read')")
     public ResponseEntity <?> buscarPeloCodigo(@PathVariable Long codigo){
         Optional<Integrantes> integrantes = this.integrantesRepository.findById(codigo);
 
@@ -59,11 +63,13 @@ public class IntegrantesResource {
     }
 
     @DeleteMapping("/{codigo}")
+    @PreAuthorize("hasAuthority('ROLE_REMOVER_INTEGRANTE') and #oauth2.hasScope('write')")
     public void deletarPeloCodigo(@PathVariable Long codigo){
         integrantesRepository.deleteById(codigo);
     }
 
     @PutMapping("/{codigo}")
+    @PreAuthorize("hasAuthority('ROLE_CADASTRAR_INTEGRANTE') and #oauth2.hasScope('write')")
     public ResponseEntity <Integrantes> atualizar(@PathVariable Long codigo, @Valid @RequestBody Integrantes integrantes){
 
         Integrantes integrantesSalvo = integrantesService.atualizar(codigo, integrantes);

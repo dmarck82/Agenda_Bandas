@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -37,11 +38,13 @@ public class BandaResource {
     private BandaService bandaService;
     
     @GetMapping
+    @PreAuthorize("hasAuthority('ROLE_PESQUISAR_BANDA') and #oauth2.hasScope('read')")
     public List<Banda> listar(){
         return bandaRepository.findAll();
     }
 
     @PostMapping
+    @PreAuthorize("hasAuthority('ROLE_CADASTRAR_BANDA') and #oauth2.hasScope('write')")
     public ResponseEntity<Banda> criar(@Valid @RequestBody Banda banda, HttpServletResponse response){
         
         Banda bandaSalvo = bandaRepository.save(banda);
@@ -52,6 +55,7 @@ public class BandaResource {
     }
 
     @GetMapping("/{codigo}")
+    @PreAuthorize("hasAuthority('ROLE_PESQUISAR_BANDA') and #oauth2.hasScope('read')")
     public ResponseEntity <?> buscarPeloCodigo(@PathVariable Long codigo){
         Optional<Banda> banda = this.bandaRepository.findById(codigo);
 
@@ -59,11 +63,13 @@ public class BandaResource {
     }
 
     @DeleteMapping("/{codigo}")
+    @PreAuthorize("hasAuthority('ROLE_REMOVER_BANDA') and #oauth2.hasScope('write')")
     public void deletarPeloCodigo(@PathVariable Long codigo){
         bandaRepository.deleteById(codigo);
     }
     
     @PutMapping("/{codigo}")
+    @PreAuthorize("hasAuthority('ROLE_CADASTRAR_BANDA') and #oauth2.hasScope('write')")
     public ResponseEntity <Banda> atualizar(@PathVariable Long codigo, @Valid @RequestBody Banda banda){
 
         Banda bandaSalva = bandaService.atualizar(codigo, banda);

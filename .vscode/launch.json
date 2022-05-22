@@ -6,6 +6,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "Launch GeradorSenha",
+            "request": "launch",
+            "mainClass": "br.edu.utfpr.agenda.banda.security.util.GeradorSenha",
+            "projectName": "agenda-banda"
+        },
+        {
+            "type": "java",
             "name": "Launch Current File",
             "request": "launch",
             "mainClass": "${file}"

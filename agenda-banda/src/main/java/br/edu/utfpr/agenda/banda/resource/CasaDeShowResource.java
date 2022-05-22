@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -37,11 +38,13 @@ public class CasaDeShowResource {
     private CasaDeShowService casaDeShowService;
 
     @GetMapping
+    @PreAuthorize("hasAuthority('ROLE_PESQUISAR_CASA_DE_SHOW') and #oauth2.hasScope('read')")
     public List<CasaDeShow> listar(){
         return casaDeShowRepository.findAll();
     }
 
     @PostMapping
+    @PreAuthorize("hasAuthority('ROLE_CADASTRAR_CASA_DE_SHOW') and #oauth2.hasScope('write')")
     public ResponseEntity<CasaDeShow> criar(@Valid @RequestBody CasaDeShow casaDeShow, HttpServletResponse response){
         
         CasaDeShow casaDeShowSalvo = casaDeShowRepository.save(casaDeShow);
@@ -53,6 +56,7 @@ public class CasaDeShowResource {
     }
 
     @GetMapping("/{codigo}")
+    @PreAuthorize("hasAuthority('ROLE_PESQUISAR_CASA_DE_SHOW') and #oauth2.hasScope('read')")
     public ResponseEntity <?> buscarPeloCodigo(@PathVariable Long codigo){
         Optional<CasaDeShow> casaDeShow = this.casaDeShowRepository.findById(codigo);
 
@@ -60,11 +64,13 @@ public class CasaDeShowResource {
     }
 
     @DeleteMapping("/{codigo}")
+    @PreAuthorize("hasAuthority('ROLE_REMOVER_CASA_DE_SHOW') and #oauth2.hasScope('write')")
     public void deletarPeloCodigo(@PathVariable Long codigo){
         casaDeShowRepository.deleteById(codigo);
     }
 
     @PutMapping("/{codigo}")
+    @PreAuthorize("hasAuthority('ROLE_CADASTRAR_CASA_DE_SHOW') and #oauth2.hasScope('write')")
     public ResponseEntity <CasaDeShow> atualizar(@PathVariable Long codigo, @Valid @RequestBody CasaDeShow casaDeShow){
 
         CasaDeShow casaDeShowSalvo = casaDeShowService.atualizar(codigo, casaDeShow);
